@@ -1,3 +1,13 @@
+from flask import Flask
+app = Flask(__name__)  # обязательно назвать переменную `app`
+
+@app.route("/")
+def hello():
+    return "Weather App! 🌦️"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+
 import requests
 
 API_KEY = "your_api_key"
