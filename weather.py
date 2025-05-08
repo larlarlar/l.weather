@@ -1,9 +1,46 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for, session
 import os
 import requests
 
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
+
+@app.route("/", methods=["GET", "POST"])
+def weather():
+    if request.method == "POST":
+        if 'clear' in request.form:
+            session.pop('last_city', None)
+            session.pop('weather_data', None)
+            return redirect(url_for('weather'))
+        city = request.form.get("city", "").strip()
+        if city:
+            session['last_city'] = city
+            return redirect(url_for('weather_results'))
+    
+    return render_template("weather.html", 
+                         city=session.get('last_city', ""),
+                         weather=session.get('weather_data'))
+
+@app.route("/results")
+def weather_results():
+    city = session.get('last_city', "")
+    if not city:
+        return redirect(url_for('weather'))
+    
+    weather_data = get_weather(city)
+    if "error" in weather_data:
+        session['weather_data'] = None
+        return render_template("weather.html",
+                            city=city,
+                            error=weather_data["error"])
+    
+    session['weather_data'] = weather_data
+    return render_template("weather.html",
+                         weather=weather_data,
+                         city=city)
+
+
 
 # Basic
 @app.route("/", methods=["GET", "POST"])

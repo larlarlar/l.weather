@@ -78,33 +78,42 @@
             text-align: center;
             margin: 20px 0;
         }
+        .clear-btn {
+            padding: 10px 15px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .clear-btn:hover {
+            background-color: #d32f2f;
+        }
+        .form-group {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .input-group {
+            display: flex;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <h1>Weather App</h1>
     
     <div class="weather-form">
-        <form method="POST">
-            <input type="text" name="city" placeholder="Enter city name" value="{{ city }}" required>
-            <button type="submit">Get Weather</button>
+        <form method="POST" action="{{ url_for('weather') }}">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" name="city" placeholder="Enter city name" value="{{ city }}" required>
+                    <button type="submit">Get Weather</button>
+                </div>
+            </div>
+            <button type="submit" name="clear" class="clear-btn">Clear</button>
         </form>
     </div>
-    
-    {% if error %}
-        <div class="not-found">City is NOT FOUND</div>
-    {% elif weather %}
-        <div class="weather-card">
-            <h2>{{ weather.city }}</h2>
-            <img class="weather-icon" src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="{{ weather.description }}">
-            <div class="temp">{{ weather.temp }}°C</div>
-            <div>Feels like: {{ weather.feels_like }}°C</div>
-            <div>{{ weather.description|capitalize }}</div>
-            
-            <div class="weather-details">
-                <div class="detail">
-                    <div>Humidity</div>
-                    <div>{{ weather.humidity }}%</div>
-                </div>
             </div>
         </div>
     {% endif %}
