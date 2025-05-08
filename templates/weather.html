@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Погодное приложение</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .weather-card { background: #f0f8ff; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Узнайте погоду</h1>
+    <form method="POST">
+        <input type="text" name="city" placeholder="Введите город" required>
+        <button type="submit">Узнать погоду</button>
+    </form>
+
+    {% if weather %}
+        <div class="weather-card">
+            <h2>Погода в {{ city }}</h2>
+            
+            {% if weather.error %}
+                <p class="error">{{ weather.error }}</p>
+            {% else %}
+                <p>Температура: {{ weather.temp }}°C</p>
+                <p>Ощущается как: {{ weather.feels_like }}°C</p>
+                <p>Влажность: {{ weather.humidity }}%</p>
+                <p>Описание: {{ weather.description }}</p>
+                {% if weather.icon %}
+                    <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
