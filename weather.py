@@ -63,6 +63,12 @@ def get_weather(city):
         return {"error": "Processing error"}
     except ValueError:
         return {"error": "Invalid text"}
+    
+    # GET request or empty form submission
+    return render_template("weather.html", 
+                         weather=None, 
+                         city=city,
+                         error=None)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
