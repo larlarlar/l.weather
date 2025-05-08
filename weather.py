@@ -35,7 +35,7 @@ def get_weather(city):
                 "q": city,
                 "appid": API_KEY,
                 "units": "metric",
-                "lang": "ru"
+                "lang": "eng"
             },
             timeout=10  # timout 10 sec
         )
