@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Погодное приложение</title>
+    <title>Weather App</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
         .weather-card { background: #f0f8ff; padding: 20px; border-radius: 10px; margin-top: 20px; }
         .error { color: red; }
+        .weather-info { margin-top: 10px; }
+        img { vertical-align: middle; }
     </style>
 </head>
 <body>
-    <h1>Узнайте погоду</h1>
+    <h1>Weather Forecast</h1>
     <form method="POST">
-        <input type="text" name="city" placeholder="Введите город" required>
-        <button type="submit">Узнать погоду</button>
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
     </form>
 
     {% if weather %}
         <div class="weather-card">
-            <h2>Погода в {{ city }}</h2>
+            <h2>Weather in {{ city }}</h2>
             
             {% if weather.error %}
                 <p class="error">{{ weather.error }}</p>
+                <p>Please try again or check the city name.</p>
             {% else %}
-                <p>Температура: {{ weather.temp }}°C</p>
-                <p>Ощущается как: {{ weather.feels_like }}°C</p>
-                <p>Влажность: {{ weather.humidity }}%</p>
-                <p>Описание: {{ weather.description }}</p>
-                {% if weather.icon %}
-                    <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
-                {% endif %}
+                <div class="weather-info">
+                    <p><strong>Temperature:</strong> {{ weather.temp }}°C</p>
+                    <p><strong>Feels like:</strong> {{ weather.feels_like }}°C</p>
+                    <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+                    <p><strong>Conditions:</strong> {{ weather.description }}</p>
+                    <p><strong>Wind Speed:</strong> {{ weather.wind_speed }} m/s</p>
+                    {% if weather.icon %}
+                        <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
+                    {% endif %}
+                </div>
             {% endif %}
         </div>
     {% endif %}
