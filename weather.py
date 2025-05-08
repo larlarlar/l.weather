@@ -1,5 +1,5 @@
 from flask import Flask
-app = Flask(__name__)  # обязательно назвать переменную `app`
+app = Flask(__name__)
 
 @app.route("/")
 def hello():
